@@ -21,7 +21,7 @@
       width: 100%;
       border-radius: 0.75rem;
       z-index: 1;
-      border: 2px solid #60a5fa;
+      border: 1px solid #93c5fd;
     }
     .custom-pin {
       display: flex;
@@ -29,44 +29,39 @@
       justify-content: center;
     }
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #fef3c7; }
-    ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
+    ::-webkit-scrollbar-track { background: #e6f4ea; }
+    ::-webkit-scrollbar-thumb { background: #a7f3d0; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #34d399; }
   </style>
 </head>
-<body class="bg-gradient-to-br from-sky-100 via-emerald-50 to-amber-100 text-slate-800 min-h-screen flex flex-col font-sans">
-
-  <!-- TOP COLORFUL ACCENT BAR -->
-  <div class="h-2 w-full bg-gradient-to-r from-blue-600 via-amber-400 to-emerald-500"></div>
+<body class="bg-emerald-50/80 text-slate-800 min-h-screen flex flex-col font-sans">
 
   <!-- NAVIGATION / HEADER -->
-  <header class="bg-white/90 backdrop-blur-md border-b border-sky-200 sticky top-0 z-50 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+  <header class="bg-white border-b border-emerald-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
       <div class="flex items-center space-x-3">
-        <div class="flex-shrink-0 bg-amber-50 p-1.5 rounded-2xl border border-amber-200 shadow-sm">
-          <img src="images.png" alt="City of Los Angeles Seal" class="h-12 w-12 object-contain" />
+        <div class="flex-shrink-0">
+          <img src="images.png" alt="City of Los Angeles Seal" class="h-14 w-14 object-contain drop-shadow-sm" />
         </div>
         <div>
-          <h1 class="text-2xl font-black tracking-tight text-slate-900">
-            Clean<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">LA</span> Tracker
-          </h1>
-          <p class="text-xs font-semibold text-emerald-700">Community Cleanup & City Dispatch for the City of Angels</p>
+          <h1 class="text-2xl font-extrabold tracking-tight text-slate-900">Clean<span class="text-blue-600">LA</span> Tracker</h1>
+          <p class="text-xs text-slate-500 font-medium">Community-driven cleanup & city service dispatch for the City of Angels</p>
         </div>
       </div>
       
-      <!-- COMMUNITY IMPACT DASHBOARD WIDGETS -->
+      <!-- COMMUNITY IMPACT DASHBOARD -->
       <div class="grid grid-cols-3 gap-3 w-full sm:w-auto">
-        <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white px-3 py-2 rounded-xl text-center shadow-md shadow-blue-500/20 border border-blue-400">
-          <span class="block text-[10px] font-extrabold uppercase tracking-wider text-blue-100">Total Reports</span>
-          <span id="stat-total" class="text-xl font-black">0</span>
+        <div class="bg-white border border-emerald-200 px-3 py-2 rounded-lg text-center shadow-sm">
+          <span class="block text-xs font-semibold text-slate-500">Total Reports</span>
+          <span id="stat-total" class="text-lg font-bold text-slate-800">0</span>
         </div>
-        <div class="bg-gradient-to-br from-emerald-500 to-teal-600 text-white px-3 py-2 rounded-xl text-center shadow-md shadow-emerald-500/20 border border-emerald-400">
-          <span class="block text-[10px] font-extrabold uppercase tracking-wider text-emerald-100">Volunteered</span>
-          <span id="stat-cleaned" class="text-xl font-black">0</span>
+        <div class="bg-blue-50 border border-blue-200 px-3 py-2 rounded-lg text-center shadow-sm">
+          <span class="block text-xs font-semibold text-blue-700">Volunteered</span>
+          <span id="stat-cleaned" class="text-lg font-bold text-blue-600">0</span>
         </div>
-        <div class="bg-gradient-to-br from-amber-400 to-orange-500 text-white px-3 py-2 rounded-xl text-center shadow-md shadow-amber-500/20 border border-amber-300">
-          <span class="block text-[10px] font-extrabold uppercase tracking-wider text-amber-100">City (311)</span>
-          <span id="stat-311" class="text-xl font-black">0</span>
+        <div class="bg-amber-50 border border-amber-200 px-3 py-2 rounded-lg text-center shadow-sm">
+          <span class="block text-xs font-semibold text-amber-700">City (311)</span>
+          <span id="stat-311" class="text-lg font-bold text-amber-600">0</span>
         </div>
       </div>
     </div>
@@ -75,22 +70,20 @@
   <!-- MAIN CONTAINER -->
   <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex-1 w-full flex flex-col gap-6">
     
-    <!-- BANNER: LA SUNSET GRADIENT GOAL BAR -->
-    <div class="bg-gradient-to-r from-blue-700 via-indigo-600 to-emerald-600 text-white shadow-lg shadow-indigo-500/15 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 border border-indigo-400">
+    <!-- PROGRESS GOAL BAR -->
+    <div class="bg-white shadow-sm border border-emerald-200 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-3 w-full md:w-auto">
-        <div class="bg-amber-400 text-slate-900 p-2.5 rounded-xl shadow-md">
-          <i class="fa-solid fa-sun text-xl"></i>
-        </div>
+        <i class="fa-solid fa-sun text-amber-400 text-2xl"></i>
         <div>
-          <h3 class="text-base font-extrabold tracking-wide">Keep LA Beautiful Goal</h3>
-          <p class="text-xs text-sky-100 font-medium">Aiming for a 75% resolution rate across local neighborhood pins</p>
+          <h3 class="text-sm font-bold text-slate-800">Keep LA Beautiful Goal</h3>
+          <p class="text-xs text-slate-500">Aiming for a 75% resolution rate across local neighborhood pins</p>
         </div>
       </div>
       <div class="w-full md:w-1/2 flex items-center gap-3">
-        <div class="w-full bg-black/25 backdrop-blur-sm rounded-full h-4 overflow-hidden border border-white/20 p-0.5">
-          <div id="progress-bar" class="bg-gradient-to-r from-amber-300 to-amber-400 h-full rounded-full transition-all duration-500 shadow-sm" style="width: 0%"></div>
+        <div class="w-full bg-emerald-100/60 rounded-full h-3.5 overflow-hidden border border-emerald-200">
+          <div id="progress-bar" class="bg-blue-500 h-3.5 rounded-full transition-all duration-500" style="width: 0%"></div>
         </div>
-        <span id="progress-text" class="text-sm font-black text-amber-300 whitespace-nowrap drop-shadow-sm">0%</span>
+        <span id="progress-text" class="text-xs font-bold text-blue-600 whitespace-nowrap">0%</span>
       </div>
     </div>
 
@@ -98,64 +91,56 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
       
       <!-- LEFT COLUMN: MAP VIEW -->
-      <section class="lg:col-span-7 bg-white shadow-md rounded-2xl p-4 flex flex-col gap-3 border-2 border-sky-200">
+      <section class="lg:col-span-7 bg-white shadow-sm border border-emerald-200 rounded-xl p-4 flex flex-col gap-3">
         <div class="flex justify-between items-center">
-          <h2 class="text-lg font-black text-slate-900 flex items-center gap-2">
-            <i class="fa-solid fa-map-location-dot text-blue-600"></i> Interactive LA Trash Map
+          <h2 class="text-lg font-extrabold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-map-location-dot text-blue-500"></i> Interactive LA Trash Map
           </h2>
-          <span class="text-xs font-bold text-blue-700 bg-blue-100 px-3 py-1 rounded-full border border-blue-200">
-            <i class="fa-solid fa-keyboard mr-1"></i> Type address to drop pin
+          <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-md border border-blue-100">
+            <i class="fa-solid fa-keyboard"></i> Type an address to drop a pin
           </span>
         </div>
 
         <div id="map"></div>
 
         <!-- MAP LEGEND -->
-        <div class="flex flex-wrap items-center justify-center gap-4 pt-1 text-xs font-bold text-slate-700">
-          <span class="flex items-center gap-1.5 bg-red-50 text-red-700 px-2.5 py-1 rounded-lg border border-red-200">
-            <span class="w-3 h-3 rounded-full bg-red-500 inline-block shadow-sm"></span> Needs Volunteer Cleanup
-          </span>
-          <span class="flex items-center gap-1.5 bg-blue-50 text-blue-700 px-2.5 py-1 rounded-lg border border-blue-200">
-            <span class="w-3 h-3 rounded-full bg-blue-500 inline-block shadow-sm"></span> Cleaned by Volunteers
-          </span>
-          <span class="flex items-center gap-1.5 bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg border border-amber-200">
-            <span class="w-3 h-3 rounded-full bg-amber-400 inline-block shadow-sm"></span> Escalated to MyLA311
-          </span>
+        <div class="flex flex-wrap items-center justify-center gap-4 pt-2 text-xs font-medium text-slate-600">
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 inline-block shadow-sm"></span> Needs Volunteer Cleanup</span>
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-500 inline-block shadow-sm"></span> Cleaned by Volunteers</span>
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block shadow-sm"></span> Escalated to MyLA311</span>
         </div>
       </section>
 
-      <!-- RIGHT COLUMN: CONTROL PANEL -->
-      <section class="lg:col-span-5 bg-white shadow-md rounded-2xl p-4 flex flex-col gap-4 border-2 border-emerald-200">
+      <!-- RIGHT COLUMN: TABBED CONTROL PANEL -->
+      <section class="lg:col-span-5 bg-white shadow-sm border border-emerald-200 rounded-xl p-4 flex flex-col gap-4">
         
-        <!-- TABS WITH COLORFUL ACTIVE INDICATOR -->
-        <div class="flex bg-slate-100 p-1 rounded-xl text-sm font-bold">
-          <button id="tab-btn-report" onclick="switchTab('report')" class="flex-1 py-2 text-center rounded-lg bg-blue-600 text-white shadow-sm transition-all">
-            <i class="fa-solid fa-plus-circle mr-1"></i> Report
+        <div class="flex border-b border-emerald-100 text-sm font-medium">
+          <button id="tab-btn-report" onclick="switchTab('report')" class="flex-1 py-2.5 text-center border-b-2 border-blue-600 text-blue-600 font-bold transition-all">
+            <i class="fa-solid fa-plus-circle mr-1"></i> Report Trash
           </button>
-          <button id="tab-btn-city" onclick="switchTab('city')" class="flex-1 py-2 text-center rounded-lg text-slate-600 hover:text-blue-600 transition-all">
+          <button id="tab-btn-city" onclick="switchTab('city')" class="flex-1 py-2.5 text-center border-b-2 border-transparent text-slate-500 hover:text-blue-600 transition-all">
             <i class="fa-solid fa-phone-volume mr-1"></i> City (311)
           </button>
-          <button id="tab-btn-feed" onclick="switchTab('feed')" class="flex-1 py-2 text-center rounded-lg text-slate-600 hover:text-blue-600 transition-all">
-            <i class="fa-solid fa-list mr-1"></i> Feed
+          <button id="tab-btn-feed" onclick="switchTab('feed')" class="flex-1 py-2.5 text-center border-b-2 border-transparent text-slate-500 hover:text-blue-600 transition-all">
+            <i class="fa-solid fa-list mr-1"></i> Recent Feed
           </button>
         </div>
 
-        <!-- TAB 1: REPORT FORM -->
+        <!-- TAB CONTENT 1: REPORT FORM -->
         <div id="tab-content-report" class="flex flex-col gap-3">
-          <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-3 text-xs font-semibold text-blue-900 flex items-center gap-2">
-            <i class="fa-solid fa-circle-info text-blue-600 text-base"></i>
-            <span>Type a Los Angeles address below. The map will automatically search and drop a pin!</span>
+          <div class="bg-blue-50 border border-blue-100 rounded-lg p-3 text-xs text-blue-800">
+            <i class="fa-solid fa-circle-info mr-1"></i> Type a Los Angeles address below. The map will automatically find it and drop a pin!
           </div>
 
           <form id="trash-form" onsubmit="handleFormSubmit(event)" class="flex flex-col gap-3">
             <div>
-              <label class="block text-xs font-extrabold text-slate-700 mb-1">Address or Location</label>
-              <input type="text" id="addressInput" required placeholder="e.g. 4801 St Charles" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors" />
+              <label class="block text-xs font-bold text-slate-700 mb-1">Address or Location</label>
+              <input type="text" id="addressInput" required placeholder="e.g. 4801 St Charles or by LA High School" class="w-full bg-emerald-50/50 border border-emerald-200 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors" />
             </div>
 
             <div>
-              <label class="block text-xs font-extrabold text-slate-700 mb-1">Severity / Issue Type</label>
-              <select id="severitySelect" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors">
+              <label class="block text-xs font-bold text-slate-700 mb-1">Severity / Issue Type</label>
+              <select id="severitySelect" class="w-full bg-emerald-50/50 border border-emerald-200 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors">
                 <option value="Minor Litter">Minor Litter (Volunteers can clean)</option>
                 <option value="Medium Heap">Medium Heap (Bags / Cardboard)</option>
                 <option value="Large/Illegal Dumping">Large / Illegal Dumping (Needs City 311)</option>
@@ -163,74 +148,74 @@
             </div>
 
             <div>
-              <label class="block text-xs font-extrabold text-slate-700 mb-1">Description</label>
-              <textarea id="descInput" rows="2" placeholder="Describe the items..." class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors"></textarea>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Description</label>
+              <textarea id="descInput" rows="2" placeholder="Describe the items or situation..." class="w-full bg-emerald-50/50 border border-emerald-200 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors"></textarea>
             </div>
 
             <div>
-              <label class="block text-xs font-extrabold text-slate-700 mb-1">Photo Link (Optional)</label>
-              <input type="text" id="photoInput" placeholder="e.g. image_8.png" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors" />
+              <label class="block text-xs font-bold text-slate-700 mb-1">Photo Link (Optional)</label>
+              <input type="text" id="photoInput" placeholder="URL or file name (e.g. image_8.png)" class="w-full bg-emerald-50/50 border border-emerald-200 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors" />
             </div>
 
-            <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-800 text-white font-extrabold py-3 rounded-xl text-sm transition-all mt-1 shadow-md shadow-blue-500/30">
-              <i class="fa-solid fa-paper-plane mr-1.5"></i> Search Location & Drop Pin
+            <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg text-sm transition-colors mt-1 shadow-md shadow-blue-500/30">
+              <i class="fa-solid fa-paper-plane mr-1"></i> Search Location & Drop Pin
             </button>
           </form>
         </div>
 
-        <!-- TAB 2: CITY SERVICES -->
+        <!-- TAB CONTENT 2: CITY SERVICES (311) -->
         <div id="tab-content-city" class="hidden flex flex-col gap-3">
-          <div class="bg-amber-50 border border-amber-300 rounded-xl p-3 text-xs text-amber-900 font-semibold">
-            <i class="fa-solid fa-triangle-exclamation mr-1 text-amber-600"></i> 
-            <strong>Large Illegal Dumping?</strong> For hazardous items or furniture, contact LA City Services directly.
+          <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800 font-medium">
+            <i class="fa-solid fa-circle-exclamation mr-1 text-amber-500"></i> 
+            <strong>Large Illegal Dumping?</strong> For hazardous items, furniture, or heavy debris blocking access, contact Los Angeles City Services directly.
           </div>
 
           <div class="flex flex-col gap-2.5">
-            <a href="tel:311" class="flex items-center justify-between bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200 hover:border-amber-400 p-3 rounded-xl text-sm transition-all group shadow-sm">
+            <a href="tel:311" class="flex items-center justify-between bg-white border border-emerald-200 hover:border-amber-400 p-3 rounded-lg text-sm transition-all group shadow-sm">
               <div class="flex items-center gap-3">
-                <div class="bg-amber-500 text-white p-2.5 rounded-xl shadow-sm">
+                <div class="bg-amber-100 text-amber-600 p-2 rounded-lg">
                   <i class="fa-solid fa-phone"></i>
                 </div>
                 <div>
-                  <div class="font-extrabold text-slate-900">Call MyLA311</div>
-                  <div class="text-xs text-amber-800 font-medium">Dial 311 or (213) 473-3231</div>
+                  <div class="font-bold text-slate-800">Call MyLA311</div>
+                  <div class="text-xs text-slate-500">Dial 311 or (213) 473-3231</div>
                 </div>
               </div>
-              <i class="fa-solid fa-chevron-right text-amber-400 group-hover:text-amber-600 transition-colors"></i>
+              <i class="fa-solid fa-chevron-right text-slate-400 group-hover:text-amber-500 transition-colors"></i>
             </a>
 
-            <a href="https://myla311.lacity.gov" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between bg-gradient-to-r from-blue-50 to-sky-50 border-2 border-blue-200 hover:border-blue-400 p-3 rounded-xl text-sm transition-all group shadow-sm">
+            <a href="https://myla311.lacity.gov" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between bg-white border border-emerald-200 hover:border-blue-400 p-3 rounded-lg text-sm transition-all group shadow-sm">
               <div class="flex items-center gap-3">
-                <div class="bg-blue-600 text-white p-2.5 rounded-xl shadow-sm">
+                <div class="bg-blue-100 text-blue-600 p-2 rounded-lg">
                   <i class="fa-solid fa-globe"></i>
                 </div>
                 <div>
-                  <div class="font-extrabold text-slate-900">MyLA311 Online Portal</div>
-                  <div class="text-xs text-blue-800 font-medium">myla311.lacity.gov</div>
+                  <div class="font-bold text-slate-800">MyLA311 Online Portal</div>
+                  <div class="text-xs text-slate-500">myla311.lacity.gov</div>
                 </div>
               </div>
-              <i class="fa-solid fa-arrow-up-right-from-square text-blue-400 group-hover:text-blue-600 transition-colors"></i>
+              <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 group-hover:text-blue-500 transition-colors"></i>
             </a>
 
-            <a href="tel:8882532652" class="flex items-center justify-between bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 hover:border-emerald-400 p-3 rounded-xl text-sm transition-all group shadow-sm">
+            <a href="tel:8882532652" class="flex items-center justify-between bg-white border border-emerald-200 hover:border-blue-500 p-3 rounded-lg text-sm transition-all group shadow-sm">
               <div class="flex items-center gap-3">
-                <div class="bg-emerald-600 text-white p-2.5 rounded-xl shadow-sm">
+                <div class="bg-blue-100 text-blue-600 p-2 rounded-lg">
                   <i class="fa-solid fa-leaf"></i>
                 </div>
                 <div>
-                  <div class="font-extrabold text-slate-900">LA County CleanLA Hotline</div>
-                  <div class="text-xs text-emerald-800 font-medium">(888) CLEAN-LA</div>
+                  <div class="font-bold text-slate-800">LA County CleanLA Hotline</div>
+                  <div class="text-xs text-slate-500">(888) CLEAN-LA</div>
                 </div>
               </div>
-              <i class="fa-solid fa-chevron-right text-emerald-400 group-hover:text-emerald-600 transition-colors"></i>
+              <i class="fa-solid fa-chevron-right text-slate-400 group-hover:text-blue-500 transition-colors"></i>
             </a>
           </div>
         </div>
 
-        <!-- TAB 3: ACTIVITY FEED -->
+        <!-- TAB CONTENT 3: RECENT ACTIVITY FEED -->
         <div id="tab-content-feed" class="hidden flex flex-col gap-3">
-          <h3 class="text-sm font-extrabold text-slate-900">Recent Community Reports</h3>
-          <div id="feed-list" class="flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-1"></div>
+          <h3 class="text-sm font-bold text-slate-800">Community Activity</h3>
+          <div id="feed-list" class="flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-2"></div>
         </div>
 
       </section>
@@ -238,13 +223,13 @@
     </div>
   </main>
 
-  <footer class="bg-white/80 border-t border-sky-200 py-4 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 text-center text-xs font-bold text-slate-600">
+  <footer class="bg-white border-t border-emerald-200 py-4 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs font-semibold text-slate-500">
       CleanLA Tracker — Built for the TKS Prompt to Product Challenge
     </div>
   </footer>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT -->
   <script>
     let map;
     let markersLayer = L.layerGroup();
@@ -288,9 +273,9 @@
     function createCustomPin(colorHex) {
       return L.divIcon({
         className: 'custom-pin',
-        html: `<div style="background-color: ${colorHex}; width: 26px; height: 26px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.35);"></div>`,
-        iconSize: [26, 26],
-        iconAnchor: [13, 13]
+        html: `<div style="background-color: ${colorHex}; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.3);"></div>`,
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
       });
     }
 
@@ -335,17 +320,17 @@
         const popupContent = `
           <div class="text-slate-900 font-sans p-1 max-w-[200px]">
             <strong class="block text-sm font-bold mb-1">${report.title}</strong>
-            <span class="inline-block px-2 py-0.5 text-[10px] font-black rounded-md ${getBadgeStyle(report.status)} mb-2">
+            <span class="inline-block px-2 py-0.5 text-[10px] font-bold rounded ${getBadgeStyle(report.status)} mb-2 border border-current">
               ${report.status.toUpperCase()}
             </span>
-            ${report.photo ? `<img src="${report.photo}" class="w-full h-24 object-cover rounded-lg mb-2 border border-slate-200" alt="Trash photo">` : ''}
-            <p class="text-xs text-slate-600 mb-3 font-medium">${report.desc}</p>
+            ${report.photo ? `<img src="${report.photo}" class="w-full h-24 object-cover rounded mb-2 border border-slate-200" alt="Trash photo">` : ''}
+            <p class="text-xs text-slate-600 mb-3">${report.desc}</p>
             ${report.status === 'pending' ? `
               <div class="flex flex-col gap-1.5">
-                <button onclick="markAsCleaned(${report.id})" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-xs py-1.5 rounded-lg shadow-sm">
+                <button onclick="markAsCleaned(${report.id})" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs py-1.5 rounded shadow-sm">
                   ✓ Mark Cleaned
                 </button>
-                <button onclick="escalateTo311(${report.id})" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-extrabold text-xs py-1.5 rounded-lg shadow-sm">
+                <button onclick="escalateTo311(${report.id})" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs py-1.5 rounded shadow-sm">
                   Escalate to 311
                 </button>
               </div>
@@ -362,9 +347,9 @@
     }
 
     function getBadgeStyle(status) {
-      if (status === 'cleaned') return 'bg-emerald-100 text-emerald-800 border border-emerald-300';
-      if (status === '311') return 'bg-amber-100 text-amber-800 border border-amber-300';
-      return 'bg-red-100 text-red-800 border border-red-300';
+      if (status === 'cleaned') return 'bg-blue-50 text-blue-700';
+      if (status === '311') return 'bg-amber-50 text-amber-700';
+      return 'bg-red-50 text-red-700';
     }
 
     function updateStats() {
@@ -389,22 +374,22 @@
 
       reports.slice().reverse().forEach(report => {
         const card = document.createElement('div');
-        card.className = "bg-slate-50 border-2 border-slate-200 p-3 rounded-xl text-xs flex flex-col gap-1.5 shadow-sm";
+        card.className = "bg-white border border-emerald-100 p-3 rounded-lg text-xs flex flex-col gap-1.5 shadow-sm";
         
-        let statusBadge = `<span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-red-100 text-red-700 border border-red-200">Needs Cleanup</span>`;
-        if (report.status === 'cleaned') statusBadge = `<span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700 border border-emerald-200">Cleaned</span>`;
-        if (report.status === '311') statusBadge = `<span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-amber-100 text-amber-700 border border-amber-200">Reported to 311</span>`;
+        let statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded border bg-red-50 border-red-200 text-red-600">Needs Cleanup</span>`;
+        if (report.status === 'cleaned') statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded border bg-blue-50 border-blue-200 text-blue-600">Cleaned</span>`;
+        if (report.status === '311') statusBadge = `<span class="text-[10px] font-bold px-2 py-0.5 rounded border bg-amber-50 border-amber-200 text-amber-600">Reported to 311</span>`;
 
         card.innerHTML = `
           <div class="flex justify-between items-center mb-1">
-            <strong class="text-sm text-slate-900 font-black">${report.title}</strong>
+            <strong class="text-sm text-slate-800 font-extrabold">${report.title}</strong>
             ${statusBadge}
           </div>
-          <p class="text-slate-700 font-semibold">${report.desc}</p>
-          <div class="flex justify-between items-center pt-2 mt-1 border-t border-slate-200 text-[11px] text-slate-500">
-            <span class="font-extrabold text-blue-600"><i class="fa-solid fa-tag mr-1"></i>${report.severity}</span>
+          <p class="text-slate-600 font-medium">${report.desc}</p>
+          <div class="flex justify-between items-center pt-2 mt-1 border-t border-slate-100 text-[11px] text-slate-500">
+            <span class="font-semibold"><i class="fa-solid fa-tag text-blue-500 mr-1"></i>${report.severity}</span>
             ${report.status === 'pending' ? `
-              <button onclick="markAsCleaned(${report.id})" class="text-blue-700 hover:text-blue-900 font-black bg-blue-100 px-2.5 py-1 rounded-lg border border-blue-200">
+              <button onclick="markAsCleaned(${report.id})" class="text-blue-600 hover:text-blue-800 font-bold bg-blue-50 px-2 py-1 rounded">
                 Mark Cleaned
               </button>
             ` : ''}
@@ -465,7 +450,7 @@
       document.getElementById('trash-form').reset();
       switchTab('feed');
       
-      submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane mr-1.5"></i> Search Location & Drop Pin`;
+      submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane mr-1"></i> Search Location & Drop Pin`;
       submitBtn.disabled = false;
     }
 
@@ -490,14 +475,14 @@
       tabs.forEach(t => {
         document.getElementById(`tab-content-${t}`).classList.add('hidden');
         const btn = document.getElementById(`tab-btn-${t}`);
-        btn.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
-        btn.classList.add('text-slate-600');
+        btn.classList.remove('border-blue-600', 'text-blue-600', 'font-bold');
+        btn.classList.add('border-transparent', 'text-slate-500');
       });
 
       document.getElementById(`tab-content-${tabName}`).classList.remove('hidden');
       const activeBtn = document.getElementById(`tab-btn-${tabName}`);
-      activeBtn.classList.remove('text-slate-600');
-      activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+      activeBtn.classList.remove('border-transparent', 'text-slate-500');
+      activeBtn.classList.add('border-blue-600', 'text-blue-600', 'font-bold');
     }
 
     window.onload = initMap;
