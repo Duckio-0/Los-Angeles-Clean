@@ -83,7 +83,7 @@
         </div>
         <div>
           <h3 class="text-base font-extrabold tracking-wide">Keep LA Beautiful Goal</h3>
-          <p class="text-xs text-[#F1F2ED]/90 font-medium">Aiming for a 75% resolution rate across local neighborhood pins</p>
+          <p class="text-xs text-[#F1F2ED]/90 font-medium">Aiming for a 75% resolution rate across neighborhoods</p>
         </div>
       </div>
       <div class="w-full md:w-1/2 flex items-center gap-3">
@@ -164,9 +164,19 @@
               <textarea id="descInput" rows="2" placeholder="Describe the items..." class="w-full bg-[#F1F2ED]/50 border-2 border-[#A2AC82]/60 rounded-xl px-3 py-2 text-sm font-medium text-[#2E2D1D] focus:outline-none focus:border-[#0C3C01] focus:bg-white transition-colors"></textarea>
             </div>
 
+            <!-- NEW DRAG AND DROP PHOTO UPLOAD -->
             <div>
-              <label class="block text-xs font-extrabold text-[#2E2D1D] mb-1">Photo Link (Optional)</label>
-              <input type="text" id="photoInput" placeholder="e.g. image_8.png" class="w-full bg-[#F1F2ED]/50 border-2 border-[#A2AC82]/60 rounded-xl px-3 py-2 text-sm font-medium text-[#2E2D1D] focus:outline-none focus:border-[#0C3C01] focus:bg-white transition-colors" />
+              <label class="block text-xs font-extrabold text-[#2E2D1D] mb-1">Upload Photo (Optional)</label>
+              <div class="flex items-center justify-center w-full">
+                <label for="photoInput" class="flex flex-col items-center justify-center w-full h-24 border-2 border-[#A2AC82]/60 border-dashed rounded-xl cursor-pointer bg-[#F1F2ED]/50 hover:bg-white hover:border-[#0C3C01] transition-colors">
+                  <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
+                    <i class="fa-solid fa-cloud-arrow-up text-[#5B6D49] text-2xl mb-1.5"></i>
+                    <p class="text-xs text-[#2E2D1D] font-medium"><span class="font-extrabold text-[#0C3C01]">Click to upload</span> or drag and drop</p>
+                    <p class="text-[10px] text-[#5B6D49] mt-0.5" id="fileNameDisplay">PNG, JPG, or GIF up to 5MB</p>
+                  </div>
+                  <input id="photoInput" type="file" accept="image/*" class="hidden" onchange="handleFileUpload(this)" />
+                </label>
+              </div>
             </div>
 
             <button type="submit" id="submitBtn" class="w-full bg-[#0C3C01] hover:bg-[#5B6D49] text-white font-extrabold py-3 rounded-xl text-sm transition-all mt-1 shadow-md">
@@ -249,6 +259,9 @@
     let selectedLat = 34.0522; 
     let selectedLng = -118.2437;
     
+    // Store the uploaded image as a base64 string
+    let currentUploadedPhoto = "";
+
     let reports = [
       {
         id: 1,
@@ -411,13 +424,32 @@
       });
     }
 
+    // Handles the file upload and converts it to a temporary local URL (base64)
+    function handleFileUpload(input) {
+      const display = document.getElementById('fileNameDisplay');
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        display.innerText = "Selected: " + file.name;
+        display.classList.add("text-[#0C3C01]", "font-bold");
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          currentUploadedPhoto = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        display.innerText = "PNG, JPG, or GIF up to 5MB";
+        display.classList.remove("text-[#0C3C01]", "font-bold");
+        currentUploadedPhoto = "";
+      }
+    }
+
     async function handleFormSubmit(e) {
       e.preventDefault();
 
       const address = document.getElementById('addressInput').value;
       const severity = document.getElementById('severitySelect').value;
       const desc = document.getElementById('descInput').value || "Community reported trash location.";
-      const photo = document.getElementById('photoInput').value;
       
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.innerText = "Searching Location...";
@@ -451,7 +483,7 @@
         severity: severity,
         desc: desc,
         status: "pending",
-        photo: photo
+        photo: currentUploadedPhoto // Use the uploaded base64 image
       };
 
       reports.push(newReport);
@@ -459,7 +491,13 @@
 
       map.flyTo([newReport.lat, newReport.lng], 15);
 
+      // Reset form and file upload variables
       document.getElementById('trash-form').reset();
+      currentUploadedPhoto = "";
+      const display = document.getElementById('fileNameDisplay');
+      display.innerText = "PNG, JPG, or GIF up to 5MB";
+      display.classList.remove("text-[#0C3C01]", "font-bold");
+
       switchTab('feed');
       
       submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane mr-1.5"></i> Search Location & Drop Pin`;
