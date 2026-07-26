@@ -109,14 +109,14 @@
 
         <!-- MAP LEGEND -->
         <div class="flex flex-wrap items-center justify-center gap-4 pt-1 text-xs font-bold text-[#2E2D1D]">
+          <span class="flex items-center gap-1.5 bg-amber-50 text-amber-800 px-2.5 py-1 rounded-lg border border-amber-200">
+            <span class="w-3 h-3 rounded-full bg-amber-400 inline-block shadow-sm"></span> Needs Volunteer Cleanup
+          </span>
+          <span class="flex items-center gap-1.5 bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-lg border border-emerald-200">
+            <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block shadow-sm"></span> Cleaned by Volunteers
+          </span>
           <span class="flex items-center gap-1.5 bg-red-50 text-red-800 px-2.5 py-1 rounded-lg border border-red-200">
-            <span class="w-3 h-3 rounded-full bg-red-500 inline-block shadow-sm"></span> Needs Volunteer Cleanup
-          </span>
-          <span class="flex items-center gap-1.5 bg-[#0C3C01]/10 text-[#0C3C01] px-2.5 py-1 rounded-lg border border-[#0C3C01]/30">
-            <span class="w-3 h-3 rounded-full bg-[#0C3C01] inline-block shadow-sm"></span> Cleaned by Volunteers
-          </span>
-          <span class="flex items-center gap-1.5 bg-[#5B6D49]/10 text-[#5B6D49] px-2.5 py-1 rounded-lg border border-[#5B6D49]/30">
-            <span class="w-3 h-3 rounded-full bg-[#5B6D49] inline-block shadow-sm"></span> Escalated to MyLA311
+            <span class="w-3 h-3 rounded-full bg-red-500 inline-block shadow-sm"></span> Escalated to MyLA311
           </span>
         </div>
       </section>
@@ -291,9 +291,9 @@
       });
     }
 
-    const pinRed = createCustomPin('#ef4444');
-    const pinGreen = createCustomPin('#0C3C01');
-    const pinOlive = createCustomPin('#5B6D49');
+    const pinYellow = createCustomPin('#eab308'); // Needs Volunteer Cleanup
+    const pinGreen = createCustomPin('#22c55e');  // Cleaned by Volunteers
+    const pinRed = createCustomPin('#ef4444');    // Escalated to MyLA311
 
     function initMap() {
       map = L.map('map').setView([34.0400, -118.3200], 13);
@@ -323,9 +323,9 @@
       markersLayer.clearLayers();
 
       reports.forEach(report => {
-        let pinIcon = pinRed;
+        let pinIcon = pinYellow;
         if (report.status === 'cleaned') pinIcon = pinGreen;
-        if (report.status === '311') pinIcon = pinOlive;
+        if (report.status === '311') pinIcon = pinRed;
 
         const marker = L.marker([report.lat, report.lng], { icon: pinIcon });
         
@@ -339,10 +339,10 @@
             <p class="text-xs text-[#2E2D1D] mb-3 font-medium">${report.desc}</p>
             ${report.status === 'pending' ? `
               <div class="flex flex-col gap-1.5">
-                <button onclick="markAsCleaned(${report.id})" class="w-full bg-[#0C3C01] hover:bg-[#5B6D49] text-white font-extrabold text-xs py-1.5 rounded-lg shadow-sm">
+                <button onclick="markAsCleaned(${report.id})" class="w-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-extrabold text-xs py-1.5 rounded-lg shadow-sm">
                   ✓ Mark Cleaned
                 </button>
-                <button onclick="escalateTo311(${report.id})" class="w-full bg-[#5B6D49] hover:bg-[#0C3C01] text-white font-extrabold text-xs py-1.5 rounded-lg shadow-sm">
+                <button onclick="escalateTo311(${report.id})" class="w-full bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold text-xs py-1.5 rounded-lg shadow-sm">
                   Escalate to 311
                 </button>
               </div>
@@ -359,9 +359,9 @@
     }
 
     function getBadgeStyle(status) {
-      if (status === 'cleaned') return 'bg-[#0C3C01]/15 text-[#0C3C01] border border-[#0C3C01]/30';
-      if (status === '311') return 'bg-[#5B6D49]/15 text-[#5B6D49] border border-[#5B6D49]/30';
-      return 'bg-red-100 text-red-800 border border-red-300';
+      if (status === 'cleaned') return 'bg-emerald-100 text-emerald-800 border border-emerald-300';
+      if (status === '311') return 'bg-red-100 text-red-800 border border-red-300';
+      return 'bg-amber-100 text-amber-800 border border-amber-300';
     }
 
     function updateStats() {
@@ -388,9 +388,9 @@
         const card = document.createElement('div');
         card.className = "bg-[#F1F2ED]/60 border-2 border-[#A2AC82]/50 p-3 rounded-xl text-xs flex flex-col gap-1.5 shadow-sm";
         
-        let statusBadge = `<span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-red-100 text-red-700 border border-red-200">Needs Cleanup</span>`;
-        if (report.status === 'cleaned') statusBadge = `<span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-[#0C3C01]/10 text-[#0C3C01] border border-[#0C3C01]/30">Cleaned</span>`;
-        if (report.status === '311') statusBadge = `<span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-[#5B6D49]/10 text-[#5B6D49] border border-[#5B6D49]/30">Reported to 311</span>`;
+        let statusBadge = `<span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-200">Needs Cleanup</span>`;
+        if (report.status === 'cleaned') statusBadge = `<span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-200">Cleaned</span>`;
+        if (report.status === '311') statusBadge = `<span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-red-100 text-red-800 border border-red-200">Reported to 311</span>`;
 
         card.innerHTML = `
           <div class="flex justify-between items-center mb-1">
