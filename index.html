@@ -141,13 +141,18 @@
         <div id="tab-content-report" class="flex flex-col gap-3">
           <div class="bg-[#A2AC82]/20 border border-[#A2AC82] rounded-xl p-3 text-xs font-semibold text-[#0C3C01] flex items-center gap-2">
             <i class="fa-solid fa-circle-info text-[#0C3C01] text-base"></i>
-            <span>Type a Los Angeles address below. The map will automatically search and drop a pin!</span>
+            <span>Type a Los Angeles address below or select a location on the map.</span>
           </div>
 
-          <form id="trash-form" onsubmit="handleFormSubmit(event)" class="flex flex-col gap-3">
-            <div>
+          <form id="trash-form" onsubmit="handleFormSubmit(event)" class="flex flex-col gap-3 relative">
+            
+            <!-- ADDRESS AUTOCOMPLETE WRAPPER -->
+            <div class="relative">
               <label class="block text-xs font-extrabold text-[#2E2D1D] mb-1">Address or Location</label>
-              <input type="text" id="addressInput" required placeholder="e.g. 4801 St Charles" class="w-full bg-[#F1F2ED]/50 border-2 border-[#A2AC82]/60 rounded-xl px-3 py-2 text-sm font-medium text-[#2E2D1D] focus:outline-none focus:border-[#0C3C01] focus:bg-white transition-colors" />
+              <input type="text" id="addressInput" autocomplete="off" required placeholder="e.g. 4801 St Charles" class="w-full bg-[#F1F2ED]/50 border-2 border-[#A2AC82]/60 rounded-xl px-3 py-2 text-sm font-medium text-[#2E2D1D] focus:outline-none focus:border-[#0C3C01] focus:bg-white transition-colors" />
+              
+              <!-- DROPDOWN BOX FOR SUGGESTIONS -->
+              <ul id="addressSuggestions" class="absolute z-[1000] w-full mt-1 bg-white border-2 border-[#A2AC82] rounded-xl shadow-xl hidden max-h-48 overflow-y-auto"></ul>
             </div>
 
             <div>
@@ -164,7 +169,7 @@
               <textarea id="descInput" rows="2" placeholder="Describe the items..." class="w-full bg-[#F1F2ED]/50 border-2 border-[#A2AC82]/60 rounded-xl px-3 py-2 text-sm font-medium text-[#2E2D1D] focus:outline-none focus:border-[#0C3C01] focus:bg-white transition-colors"></textarea>
             </div>
 
-            <!-- NEW DRAG AND DROP PHOTO UPLOAD -->
+            <!-- DRAG AND DROP PHOTO UPLOAD -->
             <div>
               <label class="block text-xs font-extrabold text-[#2E2D1D] mb-1">Upload Photo (Optional)</label>
               <div class="flex items-center justify-center w-full">
@@ -180,7 +185,7 @@
             </div>
 
             <button type="submit" id="submitBtn" class="w-full bg-[#0C3C01] hover:bg-[#5B6D49] text-white font-extrabold py-3 rounded-xl text-sm transition-all mt-1 shadow-md">
-              <i class="fa-solid fa-paper-plane mr-1.5"></i> Search Location & Drop Pin
+              <i class="fa-solid fa-paper-plane mr-1.5"></i> Submit Report & Drop Pin
             </button>
           </form>
         </div>
@@ -256,10 +261,8 @@
     let map;
     let markersLayer = L.layerGroup();
     
-    let selectedLat = 34.0522; 
-    let selectedLng = -118.2437;
-    
-    // Store the uploaded image as a base64 string
+    // Store manually selected coordinates from map or suggestions so we don't need to re-geocode
+    let verifiedCoords = null; 
     let currentUploadedPhoto = "";
 
     let reports = [
@@ -318,10 +321,12 @@
 
       markersLayer.addTo(map);
 
+      // Setup map click functionality
       map.on('click', function(e) {
-        selectedLat = e.latlng.lat;
-        selectedLng = e.latlng.lng;
+        verifiedCoords = { lat: e.latlng.lat, lng: e.latlng.lng };
         document.getElementById('addressInput').value = "Selected location on map";
+        document.getElementById('addressSuggestions').classList.add('hidden'); // Hide suggestions
+        
         switchTab('report');
         
         const input = document.getElementById('addressInput');
@@ -330,6 +335,69 @@
       });
 
       renderApp();
+      setupAutocomplete();
+    }
+
+    // Handles the address autocomplete logic
+    function setupAutocomplete() {
+      const addressInput = document.getElementById('addressInput');
+      const suggestionsBox = document.getElementById('addressSuggestions');
+      let debounceTimer;
+
+      addressInput.addEventListener('input', function(e) {
+        verifiedCoords = null; // Clear coordinates since the user is typing manually again
+        const queryVal = e.target.value.trim();
+        clearTimeout(debounceTimer);
+
+        if (queryVal.length < 3 || queryVal === "Selected location on map") {
+          suggestionsBox.classList.add('hidden');
+          return;
+        }
+
+        debounceTimer = setTimeout(async () => {
+          try {
+            // Append Los Angeles to force local results
+            const safeQuery = encodeURIComponent(queryVal + ", Los Angeles, CA");
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=5&q=${safeQuery}`);
+            const data = await res.json();
+            
+            suggestionsBox.innerHTML = '';
+            
+            if (data && data.length > 0) {
+              data.forEach(item => {
+                const li = document.createElement('li');
+                li.className = "px-3 py-2 text-xs font-semibold text-[#2E2D1D] hover:bg-[#F1F2ED] cursor-pointer border-b border-[#A2AC82]/20 last:border-0 flex items-start gap-2 transition-colors";
+                
+                // Keep the display name simple by removing the country name
+                const cleanName = item.display_name.replace(', United States', '');
+                li.innerHTML = `<i class="fa-solid fa-location-dot text-[#5B6D49] mt-0.5"></i> <span>${cleanName}</span>`;
+                
+                li.onclick = () => {
+                  // Fill input and save coordinates
+                  addressInput.value = item.display_name.split(', Los Angeles')[0]; // Simplify for the input box
+                  verifiedCoords = { lat: parseFloat(item.lat), lng: parseFloat(item.lon) };
+                  suggestionsBox.classList.add('hidden');
+                };
+                
+                suggestionsBox.appendChild(li);
+              });
+              suggestionsBox.classList.remove('hidden');
+            } else {
+              suggestionsBox.innerHTML = '<li class="px-3 py-2 text-xs text-[#5B6D49] italic">No addresses found...</li>';
+              suggestionsBox.classList.remove('hidden');
+            }
+          } catch(err) {
+            console.error("Autocomplete failed:", err);
+          }
+        }, 300); // Wait 300ms after user stops typing
+      });
+
+      // Hide suggestions if clicking outside the input
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('#addressInput') && !e.target.closest('#addressSuggestions')) {
+          suggestionsBox.classList.add('hidden');
+        }
+      });
     }
 
     function renderApp() {
@@ -352,10 +420,10 @@
             <p class="text-xs text-[#2E2D1D] mb-3 font-medium">${report.desc}</p>
             ${report.status === 'pending' ? `
               <div class="flex flex-col gap-1.5">
-                <button onclick="markAsCleaned(${report.id})" class="w-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-extrabold text-xs py-1.5 rounded-lg shadow-sm">
+                <button onclick="markAsCleaned(${report.id})" class="w-full bg-[#22c55e] hover:bg-[#16a34a] text-white font-extrabold text-xs py-1.5 rounded-lg shadow-sm transition-colors">
                   ✓ Mark Cleaned
                 </button>
-                <button onclick="escalateTo311(${report.id})" class="w-full bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold text-xs py-1.5 rounded-lg shadow-sm">
+                <button onclick="escalateTo311(${report.id})" class="w-full bg-[#ef4444] hover:bg-[#dc2626] text-white font-extrabold text-xs py-1.5 rounded-lg shadow-sm transition-colors">
                   Escalate to 311
                 </button>
               </div>
@@ -424,7 +492,6 @@
       });
     }
 
-    // Handles the file upload and converts it to a temporary local URL (base64)
     function handleFileUpload(input) {
       const display = document.getElementById('fileNameDisplay');
       if (input.files && input.files[0]) {
@@ -452,13 +519,20 @@
       const desc = document.getElementById('descInput').value || "Community reported trash location.";
       
       const submitBtn = document.getElementById('submitBtn');
-      submitBtn.innerText = "Searching Location...";
+      submitBtn.innerText = "Processing...";
       submitBtn.disabled = true;
 
-      let finalLat = selectedLat;
-      let finalLng = selectedLng;
+      // Default fallback coordinates if all else fails
+      let finalLat = 34.0522; 
+      let finalLng = -118.2437;
 
-      if (address !== "Selected location on map") {
+      // If user clicked the map or picked an autocomplete suggestion, we already have exact coords
+      if (verifiedCoords) {
+        finalLat = verifiedCoords.lat;
+        finalLng = verifiedCoords.lng;
+      } 
+      // Otherwise, if they typed something manually without picking a suggestion, do a final fallback geocode
+      else if (address !== "Selected location on map") {
         try {
           const searchQuery = encodeURIComponent(address + ", Los Angeles, CA");
           const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${searchQuery}`);
@@ -483,24 +557,26 @@
         severity: severity,
         desc: desc,
         status: "pending",
-        photo: currentUploadedPhoto // Use the uploaded base64 image
+        photo: currentUploadedPhoto
       };
 
       reports.push(newReport);
       renderApp();
-
       map.flyTo([newReport.lat, newReport.lng], 15);
 
-      // Reset form and file upload variables
+      // Reset form states
       document.getElementById('trash-form').reset();
+      verifiedCoords = null; // reset coordinates 
       currentUploadedPhoto = "";
+      
+      // Reset upload visuals
       const display = document.getElementById('fileNameDisplay');
       display.innerText = "PNG, JPG, or GIF up to 5MB";
       display.classList.remove("text-[#0C3C01]", "font-bold");
 
       switchTab('feed');
       
-      submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane mr-1.5"></i> Search Location & Drop Pin`;
+      submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane mr-1.5"></i> Submit Report & Drop Pin`;
       submitBtn.disabled = false;
     }
 
